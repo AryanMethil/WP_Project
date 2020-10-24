@@ -29,6 +29,8 @@
 </head>
 
 <body style="background: #303a44;height: 900px;color: rgb(255,255,255);width: 1920px;">
+
+    
     <?php
     session_start();
     function OpenCon()
@@ -52,6 +54,15 @@
         die("ERROR: Could not connect. " . $conn->connect_error);
       } 
       ?>
+
+    <script type="text/javascript">
+      function refresh(btn){
+        alert(btn);
+        btn.parentElement.parentElement.src = "<?php echo getImageURL($conn,4); ?>";
+
+      }
+    </script>
+
     <nav class="navbar navbar-light navbar-expand-md">
         <div class="container-fluid"><a class="navbar-brand" href="#">OnlyGif</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse"
@@ -66,32 +77,35 @@
     </nav>
     <div class="card-group" style="margin-top: 30px;height: 369px;">
         <?php
-        $sql3 = "SELECT * FROM images where imgid=1";  
-        $result = $conn->query($sql3);
+        function getImageURL($conn,$num){
+          $sql3 = "SELECT * FROM images where imgid='$num'";  
+          $result = $conn->query($sql3);
 
-         
+           
 
-        if ($result->num_rows> 0) {
-          // output data of each row
-          while($row = $result->fetch_assoc()) {
-            $imgsrc=$row["image"];
-            $image_base64=explode(';base64,',$imgsrc)[1];
-            $image_url="data:image/gif;base64,$image_base64";
-          } 
+          if ($result->num_rows> 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+              $imgsrc=$row["image"];
+              $image_base64=explode(';base64,',$imgsrc)[1];
+              $image_ur="data:image/gif;base64,$image_base64";
+            } 
+          }
+          return $image_ur;
         }
-          ?>
-
-        <div class="card" style="background: #000000;"><img class="card-img-top w-100 d-block" src="<?php echo $image_url; ?>" center / cover no-repeat;height: 517px;padding-right: 0px;padding-left: 0px;margin-left: 10px;margin-right: 10px;>
+        ?>
+        
+        <div class="card" style="background: #000000;"><img class="card-img-top w-100 d-block" src="<?php echo getImageURL($conn,1); ?>" style="center / cover no-repeat;height: 517px;padding-right: 0px;padding-left: 0px;margin-left: 10px;margin-right: 10px;">
             <div class="card-body" style="background: #262525;">
                 <h1 style="height: 49px;font-size: 27px;">Username</h1>
-                <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p><button class="btn btn-primary" type="button" style="text-align: center;margin-left: 250px;">Button</button></div>
+                <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p><button class="btn btn-primary" type="button" style="text-align: center;margin-left: 250px;" onclass=refresh(this);>Button</button></div>
         </div>
-        <div class="card" style="background: #000000;"><img class="card-img-top w-100 d-block" src="<?php echo $image_url; ?>" center / cover;padding-right: 0px;padding-left: 0px;margin-left: 10px;margin-right: 10px;>
+        <div class="card" style="background: #000000;"><img class="card-img-top w-100 d-block" src="<?php echo getImageURL($conn,2); ?>" style="center / cover;padding-right: 0px;padding-left: 0px;margin-left: 10px;margin-right: 10px;">
             <div class="card-body" style="background: #262525;">
                 <h1 style="height: 49px;font-size: 27px;">Username<br><br></h1>
                 <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p><button class="btn btn-primary" type="button" style="text-align: center;margin-left: 250px;">Button</button></div>
         </div>
-        <div class="card" style="background: #000000;"><img class="card-img-top w-100 d-block" src="<?php echo $image_url; ?>" center / cover;padding-right: 0px;padding-left: 0px;margin-left: 10px;margin-right: 10px;>
+        <div class="card" style="background: #000000;"><img class="card-img-top w-100 d-block" src="<?php echo getImageURL($conn,3); ?>" style="center / cover;padding-right: 0px;padding-left: 0px;margin-left: 10px;margin-right: 10px;">
             <div class="card-body" style="background: #262525;">
                 <h1 style="height: 49px;font-size: 27px;">Username<br><br></h1>
                 <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p><button class="btn btn-primary" type="button" style="text-align: center;margin-left: 250px;">Button</button></div>
@@ -107,3 +121,5 @@
 </body>
 
 </html>
+        
+
