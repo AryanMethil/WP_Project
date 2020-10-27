@@ -85,8 +85,6 @@ if(isset($_POST['but_upload'])){
           echo "ERROR: Could not able to execute $sql1. " . $conn->error;
         }
 
-        move_uploaded_file($_FILES['file']['tmp_name'],$target_dir.$name);
-
         # Display the uploaded image to the user ie data:image/gif;base64,AABBCC... where the latter is called the image url
         echo '<img src="data:image/gif;base64,' . $image_base64 . '" />';
 
