@@ -36,7 +36,7 @@ if(isset($_POST['but_upload'])){
   # Create the images table which will store details about the images
   # Note that the image will be base64 encoded and will be stored as a longtext datatype in the table
   $sql_images = "CREATE TABLE IF NOT EXISTS images(
-  imgid INT AUTO_INCREMENT PRIMARY KEY ,
+        imgid INT AUTO_INCREMENT PRIMARY KEY ,
         -- uid INT AUTO_INCREMENT NOT NULL,
         image LONGTEXT NOT NULL,
         imgname VARCHAR(20) NOT NULL,
@@ -79,6 +79,7 @@ if(isset($_POST['but_upload'])){
         
         #Insert the image details into the images table
         $sql1="INSERT INTO images SET image='$image', imgname='$name', caption='$caption', likes='0'";
+        $conn->query('SET @@global.max_allowed_packet='.strlen($sql1)+1024);
         if($conn->query($sql1) === true){
           echo "Inserted into table successfully.";
         } else{
